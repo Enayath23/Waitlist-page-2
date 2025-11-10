@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e0e0e" />
+  <title>THEENEMIES — Waitlist</title>
+  <style>
+    /* =======================
+       Design Tokens & Resets
+       ======================= */
+    :root {
+      --bg: #0e0e0e;
+      --surface: #151515;
+      --surface-2: #1c1c1c;
+      --text: #ffffff;
+      --muted: #cfcfcf;
+      --muted-2: #9b9b9b;
+      --brand: #ffffff;
+      --ring: #3a3a3a;
+      --radius: 14px;
+      --shadow: 0 8px 28px rgba(0,0,0,.35);
+      --space: clamp(14px, 1.8vw, 22px);
+      --max-w: 1160px;
+      --nav-h: 64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; background: var(--bg); color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    /* =======================
+       App Shell
+       ======================= */
+    .container { width: min(100% - 2rem, var(--max-w)); margin-inline: auto; }
+
+    /* Nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50; height: var(--nav-h);
+      backdrop-filter: saturate(140%) blur(8px);
+      background: color-mix(in srgb, #141414 86%, transparent);
+      border-bottom: 1px solid #232323;
+    }
+    .nav__wrap { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-inline: clamp(8px, 2vw, 16px); }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand__logo { width: 36px; height: 36px; border-radius: 10px; object-fit: cover; background:#222; }
+    .brand__name { font-size: clamp(16px, 2.2vw, 18px); font-weight: 700; letter-spacing: .8px; }
+
+    .btn { appearance: none; border: 1px solid #2d2d2d; background: #fff; color: #111; padding: 12px 18px; border-radius: 12px; font-weight: 600; cursor: pointer; box-shadow: var(--shadow); min-height: 44px; }
+    .btn--outline { background: transparent; color: #fff; border-color: #3a3a3a; box-shadow: none; }
+    .btn:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff2; }
+
+    /* =======================
+       Hero
+       ======================= */
+    .hero {
+      position: relative; isolation: isolate; min-height: clamp(58vh, 62vh, 72vh);
+      display: grid; place-items: center; overflow: clip;
+      background: radial-gradient(1200px 600px at 50% -10%, #222 0%, transparent 60%),
+                  linear-gradient(180deg, #0b0b0b 0%, #0e0e0e 100%);
+    }
+    .hero::after { /* ambient vignette */
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(1200px 400px at 80% 10%, #ffffff10, transparent 60%);
+      z-index: -1;
+    }
+    .hero__inner { width: min(100% - 2rem, var(--max-w)); padding-block: clamp(28px, 6vw, 64px); display: grid; gap: clamp(14px, 2.2vw, 22px); }
+    .eyebrow { color: var(--muted-2); text-transform: uppercase; letter-spacing: .22em; font-size: clamp(11px, 1.4vw, 12px); }
+    .hero h1 { font-size: clamp(28px, 7vw, 72px); line-height: .98; margin: 0; }
+    .tagline { font-size: clamp(14px, 2.4vw, 20px); color: var(--muted); max-width: 50ch; }
+
+    .form {
+      display: grid; gap: 10px; grid-template-columns: 1fr auto; align-items: center; width: min(560px, 100%);
+      background: var(--surface-2); border: 1px solid var(--ring); border-radius: 16px; padding: 8px; box-shadow: var(--shadow);
+    }
+    .form label { position: absolute; left: -9999px; }
+    .input { border: 0; background: #232323; color: #fff; border-radius: 12px; padding: 14px 14px; min-height: 48px; width: 100%; }
+    .input::placeholder { color: #7f7f7f; }
+    .form .btn { padding-inline: 16px; }
+    .form__note { font-size: 12px; color: var(--muted-2); margin-top: 4px; }
+    .success { display: none; color: #7dff7d; font-weight: 600; font-size: 14px; margin-top: 6px; }
+    .success[aria-hidden="false"] { display: block; }
+
+    @media (max-width: 640px) { .form { grid-template-columns: 1fr; } }
+
+    /* =======================
+       About
+       ======================= */
+    section { padding-block: clamp(36px, 6.2vw, 80px); }
+    .about { background: var(--surface); }
+    .section__head { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin-bottom: clamp(16px, 2.6vw, 24px); }
+    .section__title { font-size: clamp(22px, 3.8vw, 34px); margin: 0; }
+    .section__copy { color: var(--muted); max-width: 72ch; }
+
+    .about__grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(16px, 3vw, 36px); align-items: center; }
+    @media (max-width: 900px) { .about__grid { grid-template-columns: 1fr; } }
+
+    .card-img { border-radius: var(--radius); overflow: hidden; background: #222; box-shadow: var(--shadow); }
+    .card-img img { width: 100%; height: auto; }
+
+    /* =======================
+       Mentality Cards
+       ======================= */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: clamp(12px, 2vw, 18px); }
+    .card { background: var(--surface-2); border: 1px solid var(--ring); border-radius: 16px; padding: clamp(16px, 2.4vw, 22px); box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 8px; font-size: clamp(16px, 2.4vw, 20px); }
+    .card p { color: var(--muted); margin: 0; font-size: clamp(13px, 1.9vw, 16px); }
+
+    /* =======================
+       Waitlist CTA
+       ======================= */
+    .cta { background: linear-gradient(180deg, #0f0f0f, #0a0a0a); border-top: 1px solid #1d1d1d; }
+    .cta__inner { display: grid; gap: 12px; grid-template-columns: 1.2fr .8fr; align-items: center; }
+    .cta__perks { background: #1f1f1f; border: 1px solid var(--ring); border-radius: 14px; padding: 12px 14px; color: var(--muted); }
+    @media (max-width: 900px) { .cta__inner { grid-template-columns: 1fr; } }
+
+    /* =======================
+       Footer
+       ======================= */
+    footer { padding-block: 28px; border-top: 1px solid #1e1e1e; color: #9a9a9a; font-size: 14px; }
+
+    /* =======================
+       Motion preferences
+       ======================= */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav__wrap" role="navigation" aria-label="Primary">
+      <a class="brand" href="#">
+        <img class="brand__logo" src="logo.png" alt="THEENEMIES logo" loading="lazy" />
+        <span class="brand__name">THEENEMIES</span>
+      </a>
+      <a href="#waitlist" class="btn btn--outline">Join Waitlist</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__inner">
+      <span class="eyebrow">Streetwear · Limited Drops</span>
+      <h1>Power moves in silence. The 1% don’t wait — they act.</h1>
+      <p class="tagline">Premium silhouettes engineered for discipline and intent. Join the list to unlock early access, members‑only colorways, and collabs.</p>
+
+      <form id="waitlistForm" class="form" autocomplete="email" novalidate>
+        <label for="email">Enter your email to join the waitlist</label>
+        <input id="email" name="email" type="email" class="input" inputmode="email" placeholder="you@example.com" required aria-describedby="formNote" />
+        <button class="btn" type="submit" id="submitBtn">Join</button>
+      </form>
+      <p id="formNote" class="form__note">No spam. Unsubscribe anytime.</p>
+      <div id="success" class="success" role="status" aria-live="polite" aria-hidden="true">You're on the list. We'll be in touch soon.</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ABOUT -->
+    <section class="about">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">Forged in Silence</h2>
+        </div>
+        <div class="about__grid">
+          <div class="section__copy">
+            <p>THEENEMIES isn’t clothing. It’s a declaration of power held quietly. Street‑born and precision‑refined, our pieces are built for those who move without noise and lead without permission.</p>
+            <p>Every stitch carries intent. Every cut demands respect. Premium fabrics, architectural lines, and an uncompromising standard that separates the exceptional from the ordinary.</p>
+          </div>
+          <div class="card-img">
+            <img src="your-image-file.png" alt="Editorial streetwear visual" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MENTALITY -->
+    <section class="mentality">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="section__title">The 1% Mentality</h2>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <h3>Discipline</h3>
+            <p>Built for standards others can’t comprehend. Each piece expects the wearer to rise to it.</p>
+          </article>
+          <article class="card">
+            <h3>Silence</h3>
+            <p>Power doesn’t announce itself. Influence moves without explanation, without noise.</p>
+          </article>
+          <article class="card">
+            <h3>Exclusivity</h3>
+            <p>Limited, intentional, uncompromising. If everyone could have it, it wouldn’t be worth having.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="waitlist" class="cta">
+      <div class="container cta__inner">
+        <div>
+          <h2 class="section__title">Secure Your Position</h2>
+          <p class="section__copy">The first drop is coming. Only the waitlist gets access. No public release. No second chances.</p>
+          <div class="cta__perks"><strong>Perks:</strong> Early access • Exclusive colorways • Members‑only pricing • First look at collabs</div>
+        </div>
+        <form id="waitlistForm2" class="form" autocomplete="email" novalidate>
+          <label for="email2">Enter your email to join the waitlist</label>
+          <input id="email2" name="email" type="email" class="input" inputmode="email" placeholder="you@example.com" required />
+          <button class="btn" type="submit">Claim your spot</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© <span id="y"></span> THEENEMIES. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Simple progressive enhancement for both forms
+    const $ = (s, r = document) => r.querySelector(s);
+    const byId = (id) => document.getElementById(id);
+
+    const handleSubmit = async (form, successEl) => {
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = new FormData(form);
+        const email = (data.get('email') || '').toString().trim();
+
+        if (!email) return;
+
+        // Simulated success UX — replace with fetch('/api/waitlist') on real backend
+        form.querySelector('button[type="submit"]').disabled = true;
+        await new Promise(r => setTimeout(r, 600));
+        form.reset();
+        if (successEl) { successEl.setAttribute('aria-hidden', 'false'); }
+        form.querySelector('button[type="submit"]').disabled = false;
+      });
+    };
+
+    handleSubmit(byId('waitlistForm'), byId('success'));
+    handleSubmit(byId('waitlistForm2'));
+
+    byId('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
